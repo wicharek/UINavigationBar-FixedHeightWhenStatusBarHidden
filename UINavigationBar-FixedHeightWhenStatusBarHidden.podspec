@@ -9,7 +9,7 @@
 Pod::Spec.new do |s|
   s.name             = 'UINavigationBar-FixedHeightWhenStatusBarHidden'
   s.version          = '1.0.0'
-  s.summary          = 'This pod adds property `fixedHeightWhenStatusBarHidden` to UINavigationBar class. If set to YES navigation bar will keep its size even if status bar was hidden.'
+  s.summary          = 'This pod adds property to UINavigationBar class to keep its size even if status bar was hidden.'
 
 # This description is used to generate tags and improve search results.
 #   * Think: What does it do? Why did you write it? What is the focus?
