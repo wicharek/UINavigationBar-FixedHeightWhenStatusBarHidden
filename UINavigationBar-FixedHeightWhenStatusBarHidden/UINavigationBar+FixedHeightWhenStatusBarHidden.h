@@ -23,4 +23,17 @@
  */
 @property (readwrite, nonatomic) BOOL fixedHeightWhenStatusBarHidden;
 
+/**
+ * Returns navigation bar safe area insets depending on status bar visibility.
+ * Required for iOS 11+.
+ * Apply them on viewController.additionalSafeAreaInsets in viewWillLayoutSubviews.
+ */
+- (UIEdgeInsets)additionalSafeAreaInsets;
+
+/**
+ * Sets navigation bar safe area insets to view controller.
+ * Should be called in viewWillLayoutSubviews
+ */
+- (void)setAdditionalSafeAreaInsetsForViewController:(UIViewController*)viewController;
+
 @end
