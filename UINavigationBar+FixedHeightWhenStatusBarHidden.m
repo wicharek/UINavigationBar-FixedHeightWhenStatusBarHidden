@@ -52,6 +52,19 @@ static char const* const FixedNavigationBarSize = "FixedNavigationBarSize";
 	}
 }
 
+- (UIViewController*)parentViewController {
+	UIViewController* viewController = nil;
+	UINavigationController* navigationController = (UINavigationController*)self.superview;
+	if ([navigationController respondsToSelector:NSSelectorFromString(@"delegate")]) {
+		navigationController = navigationController.delegate;
+		if ([navigationController respondsToSelector:NSSelectorFromString(@"viewControllers")]) {
+			viewController = navigationController.viewControllers.lastObject;
+		}
+	}
+	
+	return viewController;
+}
+
 - (CGSize)sizeThatFits_FixedHeightWhenStatusBarHidden:(CGSize)size
 {
 	if ([UIApplication sharedApplication].statusBarHidden &&
@@ -81,9 +94,15 @@ static char const* const FixedNavigationBarSize = "FixedNavigationBarSize";
 {
 	[self layoutSubviews_FixedHeightWhenStatusBarHidden];
 	
+	UIViewController* viewController = [self parentViewController];
+	
 	if ([UIApplication sharedApplication].isStatusBarHidden &&
 		FYIsIOSVersionGreaterThanOrEqualTo(@"11.0") &&
 		self.fixedHeightWhenStatusBarHidden) {
+		
+		if (@available(iOS 11.0, *)) {
+			viewController.additionalSafeAreaInsets = (IS_IPHONE_X) ? UIEdgeInsetsZero : UIEdgeInsetsMake([self statusBarHeight], 0, 0, 0);
+		}
 		
 		for (UIView *subview in self.subviews) {
 			if ([NSStringFromClass([subview class]) containsString:@"BarBackground"]) {
@@ -98,6 +117,10 @@ static char const* const FixedNavigationBarSize = "FixedNavigationBarSize";
 				subViewFrame.size.height = [self navigationBarHeight];
 				[subview setFrame: subViewFrame];
 			}
+		}
+	} else {
+		if (@available(iOS 11.0, *)) {
+			viewController.additionalSafeAreaInsets = UIEdgeInsetsZero;
 		}
 	}
 }
