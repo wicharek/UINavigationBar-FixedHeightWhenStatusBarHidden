@@ -14,7 +14,7 @@ This is especially useful in case of "drawer"-styled side panel, when you want s
 
 <b>Manual:</b>
 <br>
-Add to your project source files from `UINavigationBar-FixedHeightWhenStatusBarHidden` folder
+Copy source files from `UINavigationBar-FixedHeightWhenStatusBarHidden` folder to your Xcode project.
 <br>
 <br>
 <b>CocoaPods:</b>
@@ -25,9 +25,9 @@ it, add the following line to your Podfile:
 pod 'UINavigationBar-FixedHeightWhenStatusBarHidden'
 </pre>
 
-## How to use
+## How to Use
 
-Add `#import "UINavigationBar+FixedHeightWhenStatusBarHidden.h"` to the header of a view controller file
+Add `#import "UINavigationBar+FixedHeightWhenStatusBarHidden.h"`.
 
 Enable fixed height with:
 ```objective-c
