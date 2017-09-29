@@ -52,17 +52,20 @@ static char const* const FixedNavigationBarSize = "FixedNavigationBarSize";
 	}
 }
 
-- (UIViewController*)parentViewController {
-	UIViewController* viewController = nil;
-	UINavigationController* navigationController = (UINavigationController*)self.superview;
-	if ([navigationController respondsToSelector:NSSelectorFromString(@"delegate")]) {
-		navigationController = navigationController.delegate;
-		if ([navigationController respondsToSelector:NSSelectorFromString(@"viewControllers")]) {
-			viewController = navigationController.viewControllers.lastObject;
-		}
+- (UIEdgeInsets)additionalSafeAreaInsets {
+	if ([UIApplication sharedApplication].isStatusBarHidden &&
+		FYIsIOSVersionGreaterThanOrEqualTo(@"11.0") &&
+		self.fixedHeightWhenStatusBarHidden) {
+		return (IS_IPHONE_X) ? UIEdgeInsetsZero : UIEdgeInsetsMake([self statusBarHeight], 0, 0, 0);
+	} else {
+		return UIEdgeInsetsZero;
 	}
-	
-	return viewController;
+}
+
+- (void)setAdditionalSafeAreaInsetsForViewController:(UIViewController*)viewController {
+	if (@available(iOS 11.0, *)) {
+		viewController.additionalSafeAreaInsets = [self additionalSafeAreaInsets];
+	}
 }
 
 - (CGSize)sizeThatFits_FixedHeightWhenStatusBarHidden:(CGSize)size
@@ -94,15 +97,9 @@ static char const* const FixedNavigationBarSize = "FixedNavigationBarSize";
 {
 	[self layoutSubviews_FixedHeightWhenStatusBarHidden];
 	
-	UIViewController* viewController = [self parentViewController];
-	
 	if ([UIApplication sharedApplication].isStatusBarHidden &&
 		FYIsIOSVersionGreaterThanOrEqualTo(@"11.0") &&
 		self.fixedHeightWhenStatusBarHidden) {
-		
-		if (@available(iOS 11.0, *)) {
-			viewController.additionalSafeAreaInsets = (IS_IPHONE_X) ? UIEdgeInsetsZero : UIEdgeInsetsMake([self statusBarHeight], 0, 0, 0);
-		}
 		
 		for (UIView *subview in self.subviews) {
 			if ([NSStringFromClass([subview class]) containsString:@"BarBackground"]) {
@@ -117,10 +114,6 @@ static char const* const FixedNavigationBarSize = "FixedNavigationBarSize";
 				subViewFrame.size.height = [self navigationBarHeight];
 				[subview setFrame: subViewFrame];
 			}
-		}
-	} else {
-		if (@available(iOS 11.0, *)) {
-			viewController.additionalSafeAreaInsets = UIEdgeInsetsZero;
 		}
 	}
 }
@@ -138,7 +131,7 @@ static char const* const FixedNavigationBarSize = "FixedNavigationBarSize";
 
 + (void)load
 {
-    method_exchangeImplementations(class_getInstanceMethod(self, @selector(sizeThatFits:)),
+	method_exchangeImplementations(class_getInstanceMethod(self, @selector(sizeThatFits:)),
 		class_getInstanceMethod(self, @selector(sizeThatFits_FixedHeightWhenStatusBarHidden:)));
 	
 	method_exchangeImplementations(class_getInstanceMethod(self, @selector(setFrame:)),
