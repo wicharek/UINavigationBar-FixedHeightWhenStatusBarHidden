@@ -1,5 +1,4 @@
 # UINavigationBar-FixedHeightWhenStatusBarHidden
-==============================================
 
 [![Version](https://img.shields.io/cocoapods/v/UINavigationBar-FixedHeightWhenStatusBarHidden.svg?style=flat)](http://cocoapods.org/pods/UINavigationBar-FixedHeightWhenStatusBarHidden)
 [![License](https://img.shields.io/cocoapods/l/UINavigationBar-FixedHeightWhenStatusBarHidden.svg?style=flat)](http://cocoapods.org/pods/UINavigationBar-FixedHeightWhenStatusBarHidden)
