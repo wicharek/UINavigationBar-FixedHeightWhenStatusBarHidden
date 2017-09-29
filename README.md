@@ -29,19 +29,21 @@ pod 'UINavigationBar-FixedHeightWhenStatusBarHidden'
 
 Add `#import "UINavigationBar+FixedHeightWhenStatusBarHidden.h"` to the header of a view controller file
 
-Enable fixed height with `self.navigationController.navigationBar.fixedHeightWhenStatusBarHidden = YES;`
+Enable fixed height with
 
-Set correct additional safe area insets on view controller for iOS 11+
+```objective-c
+self.navigationController.navigationBar.fixedHeightWhenStatusBarHidden = YES;
+```
+
+On iOS 11+ you should also set correct additional safe area insets on each affected view controller. Install the required insets automatically:
 ```objective-c
 - (void)viewWillLayoutSubviews {
 	[super viewWillLayoutSubviews];
-	
 	[self.navigationController.navigationBar setAdditionalSafeAreaInsetsForViewController:self];	
 }
 ```
 
-If you need custom insets, use `[UINavigationBar additionalSafeAreaInsets]` category to get insets required by navigation bar
-
+If you need to customize insets, use `[UINavigationBar additionalSafeAreaInsets]` selector to get insets required by navigation bar:
 ```objective-c
 - (void)viewWillLayoutSubviews {
 	[super viewWillLayoutSubviews];
