@@ -38,20 +38,20 @@ self.navigationController.navigationBar.fixedHeightWhenStatusBarHidden = YES;
 On iOS 11+ you should also set correct additional safe area insets on each affected view controller. Install the required insets automatically:
 ```objective-c
 - (void)viewWillLayoutSubviews {
-	[super viewWillLayoutSubviews];
-	[self.navigationController.navigationBar setAdditionalSafeAreaInsetsForViewController:self];	
+    [super viewWillLayoutSubviews];
+    [self.navigationController.navigationBar setAdditionalSafeAreaInsetsForViewController:self];	
 }
 ```
 
 If you need to customize insets, use `[UINavigationBar additionalSafeAreaInsets]` selector to get insets required by navigation bar:
 ```objective-c
 - (void)viewWillLayoutSubviews {
-	[super viewWillLayoutSubviews];
+   [super viewWillLayoutSubviews];
 
-	if (@available(iOS 11.0, *)) {
-		UIEdgeInsets navigationBarSafeAreaInsets = [self.navigationController.navigationBar additionalSafeAreaInsets];
-		self.additionalSafeAreaInsets = UIEdgeInsetsMake(navigationBarSafeAreaInsets.top + 20, 0, 0, 0);
-	}
+    if (@available(iOS 11.0, *)) {
+        UIEdgeInsets navigationBarSafeAreaInsets = [self.navigationController.navigationBar additionalSafeAreaInsets];
+        self.additionalSafeAreaInsets = UIEdgeInsetsMake(navigationBarSafeAreaInsets.top + 20, 0, 0, 0);
+    }
 }
 ```
 
