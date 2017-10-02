@@ -62,11 +62,16 @@ static char const* const FixedNavigationBarSize = "FixedNavigationBarSize";
 	}
 }
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Warc-performSelector-leaks"
+
 - (void)setAdditionalSafeAreaInsetsForViewController:(UIViewController*)viewController {
-	if (@available(iOS 11.0, *)) {
-		viewController.additionalSafeAreaInsets = [self additionalSafeAreaInsets];
+	if ([viewController respondsToSelector:NSSelectorFromString(@"setAdditionalSafeAreaInsets:")]) {
+		[viewController performSelector:NSSelectorFromString(@"setAdditionalSafeAreaInsets:") withObject:[NSValue valueWithUIEdgeInsets:[self additionalSafeAreaInsets]]];
 	}
 }
+
+#pragma clang diagnostic pop
 
 - (CGSize)sizeThatFits_FixedHeightWhenStatusBarHidden:(CGSize)size
 {
